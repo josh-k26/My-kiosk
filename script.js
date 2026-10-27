@@ -60,7 +60,7 @@ function renderProducts() {
   const container = document.getElementById("products");
   container.innerHTML = products.map(p => `
     <div class="product-card">
-      <img src="\( {p.image}" alt=" \){p.name}">
+      <img src="${p.image}" alt="${p.name}">
       <div class="product-info">
         <h3>${p.name}</h3>
         <div class="price">KSh ${p.price}</div>
@@ -140,7 +140,7 @@ document.getElementById("order-form").addEventListener("submit", function(e) {
   message += `%0A*Total: KSh ${getTotal()}*%0A%0APlease confirm and arrange delivery. Thank you!`;
 
   // Open WhatsApp
-  window.open(`https://wa.me/\( {WHATSAPP_NUMBER}?text= \){message}`, "_blank");
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message.replace(/%0A/g, "\n"))}`, "_blank");
 
   // Clear cart after order
   cart = [];
