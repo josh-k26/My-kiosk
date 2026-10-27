@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Kiosk - Order Online</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">Josh's Kiosk</div>
+    <div class="cart-icon" onclick="toggleCart()">
+      🛒 <span id="cart-count">0</span>
+    </div>
+  </header>
+
+  <!-- Products Section -->
+  <main>
+    <h2 class="section-title">Our Products</h2>
+    <div class="products" id="products">
+      <!-- Products will be loaded here by JavaScript -->
+    </div>
+  </main>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-total">
+      Total: KSh <span id="cart-total">0</span>
+    </div>
+    <button class="checkout-btn" onclick="showCheckout()">Proceed to Order</button>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="modal" id="checkout-modal">
+    <div class="modal-content">
+      <h3>Delivery Details</h3>
+      <form id="order-form">
+        <input type="text" id="name" placeholder="Your Full Name" required>
+        <input type="tel" id="phone" placeholder="Phone Number (07...)" required>
+        <textarea id="address" placeholder="Delivery Address (Estate, House No, Landmark)" required></textarea>
+        <textarea id="notes" placeholder="Any extra notes (optional)"></textarea>
+        
+        <div class="order-summary">
+          <h4>Order Summary</h4>
+          <div id="summary-items"></div>
+          <p><strong>Total: KSh <span id="summary-total">0</span></strong></p>
+        </div>
+
+        <button type="submit" class="place-order-btn">Place Order via WhatsApp</button>
+        <button type="button" class="cancel-btn" onclick="closeCheckout()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
