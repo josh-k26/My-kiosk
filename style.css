@@ -763,8 +763,8 @@ align-items: center;
 justify-content: center;
 }
 
-.modal. open {
-display: flex;
+.modal.open {
+display:flex;
 }
 
 .modal-content {
