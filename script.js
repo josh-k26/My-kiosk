@@ -150,6 +150,74 @@ document.getElementById("order-form").addEventListener("submit", function(e) {
   alert("Order sent! We will contact you shortly.");
 });
 
+// ========== PLACE ORDER (M-PESA) ==========
+
+document.getElementById("order-form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const notes = document.getElementById("notes").value.trim();
+
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+
+  // Convert Kenyan phone number to 254 format
+  let mpesaPhone = phone.replace(/\s+/g, "");
+
+  if (mpesaPhone.startsWith("0")) {
+    mpesaPhone = "254" + mpesaPhone.substring(1);
+  } else if (mpesaPhone.startsWith("+254")) {
+    mpesaPhone = mpesaPhone.substring(1);
+  }
+
+  if (!/^254[17]\d{8}$/.test(mpesaPhone)) {
+    alert("Please enter a valid Kenyan M-Pesa number.");
+    return;
+  }
+
+  const button = this.querySelector('button[type="submit"]');
+  button.disabled = true;
+  button.textContent = "Requesting payment...";
+
+  try {
+    const response = await fetch(
+      "https://my-kiosk-mpesa.joshchege4.workers.dev/api/stkpush",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          phoneNumber: mpesaPhone,
+          amount: getTotal(),
+          accountReference: "JOSHSKIOSK",
+          transactionDesc: "Kiosk Order"
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || "Payment request failed.");
+    }
+
+    alert(
+      "Payment request sent! Check your phone and enter your M-Pesa PIN if the prompt appears. Your order is not yet confirmed as paid."
+    );
+
+  } catch (error) {
+    alert("Payment request failed: " + error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Place Order";
+  }
+});
+
 // ========== START ==========
 renderProducts();
 updateCartCount();
